@@ -34,19 +34,6 @@ var movies = [
     
 ];
 
-var moviesElements = movies.map(function(movie) {
-  return React.createElement('li', {key: movie.id},
-      React.createElement('h2', {}, movie.title),
-      React.createElement('p', {}, movie.desc),
-      React.createElement('img', {src: movie.img, width: 300})
-    );
-}); 
-
-var element =
-  React.createElement('div', {},
-    React.createElement('h1', {}, 'Lista filmów'),
-    React.createElement('ul', {}, moviesElements)
-  ); 
 
 var Movie = React.createClass({
     propTypes: {
@@ -55,12 +42,23 @@ var Movie = React.createClass({
     render: function() {
         return  (
             React.createElement('li', {key: this.props.movie.id},
-                React.createElement('h2',{}, this.props.movie.title),
-                React.createElement('p',{}, this.props.movie.desc),
-                React.createElement('img',{src: this.props.movie.img, width: 300})
+                React.createElement(MovieTitle, {}, this.props.movie.title),
+                React.createElement(MovieDescription, {}, this.props.movie.desc),
+                React.createElement(MovieImg, {src: this.props.movie.img, width: 300})
             );
         )
         
+    }
+})
+
+var MovieImg = React.createClass({
+    propTypes: {
+        img: React.propTypes.object.isRequired,
+    },
+    render: function() {
+        return (
+            React.createElement('img', {src: this.props.movie.img, width: 300})
+        )
     }
 })
 
@@ -70,7 +68,7 @@ var MovieTitle = React.createClass({
     },
     render: function() {
         return (
-            React.createElement('h2',{}, this.props.movie.title)
+            React.createElement('h2', {}, this.props.movie.title)
         )
     }
 })
@@ -86,16 +84,21 @@ var MovieDescription = React.createClass({
     }
 })
 
-var MoviesList = React.createClass({
-    propTypes: {
-        
-    },
-    render: function() {
-        return (
-            React.CreateElement('ul', {}, moviesElements)
-            )
-    }
-})
+
+var moviesElements = movies.map(function(movie) {
+  return React.createElement(Movie, {key: movie.id},
+      React.createElement(MovieTitle, {}, movie.title),
+      React.createElement(MovieDescription, {}, movie.desc),
+      React.createElement(MovieImg, {src: movie.img, width: 300})
+    );
+}); 
+
+var element = React.createElement('div', {},
+    React.createElement('h1', {}, 'Lista filmów'),
+    React.createElement('ul', {}, moviesElements)
+  ); 
+
+
 
 ReactDOM.render(element, document.getElementById('app')); 
 
