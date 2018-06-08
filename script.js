@@ -30,37 +30,10 @@ var movies = [
     title: 'Szybcy i wściekli',
     desc: 'Film o wyścigach',
     img: 'https://images.pexels.com/photos/164634/pexels-photo-164634.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260'
-  },
+  }
     
 ];
 
-
-var Movie = React.createClass({
-    propTypes: {
-        movie: React.PropTypes.object.isRequired,
-    },
-    render: function() {
-        return  (
-            React.createElement('li', {key: this.props.movie.id},
-                React.createElement(MovieTitle, {}, this.props.movie.title),
-                React.createElement(MovieDescription, {}, this.props.movie.desc),
-                React.createElement(MovieImg, {src: this.props.movie.img, width: 300})
-            );
-        )
-        
-    }
-})
-
-var MovieImg = React.createClass({
-    propTypes: {
-        img: React.propTypes.object.isRequired,
-    },
-    render: function() {
-        return (
-            React.createElement('img', {src: this.props.movie.img, width: 300})
-        )
-    }
-})
 
 var MovieTitle = React.createClass({
     propTypes: {
@@ -84,21 +57,51 @@ var MovieDescription = React.createClass({
     }
 })
 
+var MovieImg = React.createClass({
+   propTypes: {
+       img: React.propTypes.object.isRequired,
+   },
+    render: function() {
+        return (
+            React.createElement('img', {src: this.props.movie.img, width: 300})
+        )
+    }
+})
+
+var MovieList = React.createClass({
+   /* propTypes: {
+   
+   } */
+    render: function() {
+        return (
+            React.createElement('ul', {}, moviesElements)
+        )
+    }
+});
+
+var Movie = React.createClass({
+    propTypes: {
+        movie: React.PropTypes.object.isRequired, 
+    },
+    render: function() {
+        return (
+            React.createElement('li', {key: this.props.movie.id},
+                React.createElement(MovieTitle, {title: this.props.movie.title}),
+                React.createElement(MovieDescription, {desc: this.props.movie.desc}),
+                React.createElement(MovieImg, {img: this.props.movie.img, width: 300})
+            )
+        )
+    }
+})
 
 var moviesElements = movies.map(function(movie) {
-  return React.createElement(Movie, {key: movie.id},
-      React.createElement(MovieTitle, {}, movie.title),
-      React.createElement(MovieDescription, {}, movie.desc),
-      React.createElement(MovieImg, {src: movie.img, width: 300})
-    );
+  return React.createElement(Movie, {key: movie.id, movie: movie})
 }); 
 
 var element = React.createElement('div', {},
     React.createElement('h1', {}, 'Lista filmów'),
-    React.createElement('ul', {}, moviesElements)
+    React.createElement(MovieList, {})
   ); 
-
-
 
 ReactDOM.render(element, document.getElementById('app')); 
 
